@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "595134378445",
+    "firebase_url": "https://laxyny-para-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "laxyny-para",
+    "storage_bucket": "laxyny-para.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595134378445:android:465b78ace2a329af6c9484",
+        "android_client_info": {
+          "package_name": "com.laxyny.para"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595134378445-jusifv6g61cgj3utq48e7n9q4tpoi07e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5-OBOZn5hYxJfp4ATPzkO2HoWWdPnYo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595134378445-jusifv6g61cgj3utq48e7n9q4tpoi07e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "595134378445-6tjfu1vejve1per74qbe286u3ck95is1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.laxyny.para"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
