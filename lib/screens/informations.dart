@@ -29,15 +29,14 @@ String flutterVersionName;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-Future<bool> get testa async {
-  bool serveurs;
+Future<void> checkAvailable() async {
   DocumentReference documentReference =
       FirebaseFirestore.instance.collection('para').doc('para');
 
-  serveurs = (await documentReference.get()).get('serveurs');
-
-  return serveurs;
+  bool serveurs = (await documentReference.get()).get('serveurs');
 }
+
+bool bddserv = true;
 
 String currentUid() {
   return firebaseAuth.currentUser.uid;
@@ -188,14 +187,17 @@ class _InformationsState extends State<Informations> {
                         //trailing: Icon(Icons.info),
                         Divider(),
                         ListTile(
-                          //onTap: () {},
+                          onTap: () {
+                            print(checkAvailable());
+                            print('LOG');
+                          },
                           title: Text(
                             "Etats des serveurs",
                             style: TextStyle(
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          trailing: testa == true
+                          trailing: bddserv == true
                               ? Icon(
                                   Icons.check_circle_outline_outlined,
                                   color: Colors.green,
@@ -205,10 +207,10 @@ class _InformationsState extends State<Informations> {
                                   color: Colors.red,
                                 ),
                           subtitle: Text(
-                            testa == true
+                            bddserv == true
                                 ? 'Fonctionne normalement'
                                 : 'Erreur base de données',
-                            style: testa == true
+                            style: bddserv == true
                                 ? TextStyle(color: Colors.green)
                                 : TextStyle(color: Colors.red),
                           ),

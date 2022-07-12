@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Para/chats/recent_chats.dart';
@@ -16,6 +17,7 @@ class Timeline extends StatefulWidget {
 
 class _TimelineState extends State<Timeline> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   List<DocumentSnapshot> post = [];
 
@@ -92,37 +94,44 @@ class _TimelineState extends State<Timeline> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        automaticallyImplyLeading: false,
-        title: Text(
-          greeting() + ' Laxyny',
-          //style: TextStyle(fontFamily: 'Algerian-Regular'),
-        ),
-        centerTitle: false,
-        actions: [
-          IconButton(
-            icon: Icon(
-              CupertinoIcons.chat_bubble_2_fill,
-              size: 30.0,
-              color: Theme.of(context).accentColor,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  builder: (_) => Chats(),
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(_auth.currentUser.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          return Scaffold(
+            backgroundColor: Colors.black,
+            key: scaffoldKey,
+            appBar: AppBar(
+              backgroundColor: Colors.black,
+              automaticallyImplyLeading: false,
+              title: Text(
+                greeting() + ' ' + snapshot.data['username'] ?? 'Indisponible',
+                //style: TextStyle(fontFamily: 'Algerian-Regular'),
+              ),
+              centerTitle: false,
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    CupertinoIcons.chat_bubble_2_fill,
+                    size: 30.0,
+                    color: Theme.of(context).accentColor,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (_) => Chats(),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: feedBody(context),
-    );
+              ],
+            ),
+            body: feedBody(context),
+          );
+        });
   }
 
   Widget feedBody(BuildContext context) {
