@@ -1,3 +1,4 @@
+import 'package:Para/utils/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -25,21 +26,21 @@ class ChatBubble extends StatefulWidget {
 class _ChatBubbleState extends State<ChatBubble> {
   Color chatBubbleColor() {
     if (widget.isMe) {
-      return Colors.blue[600];
+      return Constants.colorUserMe;
     } else {
       if (Theme.of(context).brightness == Brightness.dark) {
-        return Colors.grey[800];
+        return Constants.colorUserOther;
       } else {
-        return Colors.grey[200];
+        return Constants.colorUserOther;
       }
     }
   }
 
   Color chatBubbleReplyColor() {
     if (Theme.of(context).brightness == Brightness.dark) {
-      return Colors.grey[600];
+      return Constants.colorUserOther;
     } else {
-      return Colors.grey[50];
+      return Constants.colorUserOther;
     }
   }
 
@@ -49,14 +50,13 @@ class _ChatBubbleState extends State<ChatBubble> {
         widget.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     final radius = widget.isMe
         ? BorderRadius.only(
-            topLeft: Radius.circular(5.0),
-            bottomLeft: Radius.circular(5.0),
-            bottomRight: Radius.circular(10.0),
-          )
+            topLeft: Radius.circular(14),
+            topRight: Radius.circular(14),
+            bottomLeft: Radius.circular(14))
         : BorderRadius.only(
-            topRight: Radius.circular(5.0),
-            bottomLeft: Radius.circular(10.0),
-            bottomRight: Radius.circular(5.0),
+            topRight: Radius.circular(14),
+            bottomLeft: Radius.circular(14),
+            bottomRight: Radius.circular(14),
           );
     return Column(
       crossAxisAlignment: align,

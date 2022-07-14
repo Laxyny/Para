@@ -22,6 +22,9 @@ class Constants {
   static String appName = "Para";
   static String myName = "";
 
+  static Color colorUserMe = Colors.blue[600];
+  static Color colorUserOther = Colors.grey[800];
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 

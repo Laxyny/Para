@@ -1,3 +1,4 @@
+import 'package:Para/helper/helperductions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class RegisterViewModel extends ChangeNotifier {
           if (success) {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             resultname = username;
-            
+
             print(resultname);
             Navigator.of(context).pushReplacement(
               CupertinoPageRoute(
@@ -79,6 +80,7 @@ class RegisterViewModel extends ChangeNotifier {
 
   setName(val) {
     username = val;
+    HelperFunctions.saveUserNameSharedPreference(val);
     notifyListeners();
   }
 

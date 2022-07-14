@@ -82,6 +82,7 @@ class _GroupInfoState extends State<GroupInfo> {
             builder: (context) {
               return AlertDialog(
                 content: ListTile(
+                  selectedColor: Colors.black,
                   onTap: () => removeMembers(index),
                   title: Text("Exclure ce membre"),
                 ),

@@ -16,6 +16,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'group_info.dart';
 
 class GroupChatRoom extends StatelessWidget {
   final String groupChatId, groupName;
@@ -54,6 +55,11 @@ class GroupChatRoom extends StatelessWidget {
 
       messageController.clear();
 
+      scroll() {
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+      }
+
       await _firestore
           .collection('groups')
           .doc(groupChatId)
@@ -87,6 +93,8 @@ class GroupChatRoom extends StatelessWidget {
   }
 
   Future uploadImage() async {
+    scrollController.animateTo(scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     String fileName = Uuid().v1();
     int status = 1;
 
@@ -167,6 +175,9 @@ class GroupChatRoom extends StatelessWidget {
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Flexible(
               child: Container(
@@ -186,12 +197,13 @@ class GroupChatRoom extends StatelessWidget {
                       //viewModel.setReadCount(
                       //    widget.chatId, user, messages.length);
                       return ListView.builder(
+                        controller: scrollController,
+                        reverse: false,
                         itemCount: snapshot.data.docs.length,
                         itemBuilder: (context, index) {
                           Map<String, dynamic> chatMap =
                               snapshot.data.docs[index].data()
                                   as Map<String, dynamic>;
-
                           return messageTile(size, chatMap);
                         },
                       );
@@ -203,7 +215,7 @@ class GroupChatRoom extends StatelessWidget {
               ),
             ),
             Align(
-              alignment: Alignment.bottomCenter,
+              alignment: FractionalOffset.bottomCenter,
               child: BottomAppBar(
                 color: Colors.black,
                 elevation: 10.0,
@@ -223,6 +235,7 @@ class GroupChatRoom extends StatelessWidget {
                       ),
                       Flexible(
                         child: TextField(
+                          cursorColor: Colors.white,
                           controller: messageController,
                           focusNode: focusNode,
                           style: TextStyle(
@@ -248,6 +261,10 @@ class GroupChatRoom extends StatelessWidget {
                           color: Theme.of(context).accentColor,
                         ),
                         onPressed: () {
+                          scrollController.animateTo(
+                              scrollController.position.maxScrollExtent,
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeOut);
                           onSendMessage();
                         },
                       ),
@@ -271,6 +288,10 @@ class GroupChatRoom extends StatelessWidget {
         builder: (context, snapshot) {
           return Builder(builder: (_) {
             if (chatMap['type'] == "text") {
+              scrollController.animateTo(
+                  scrollController?.position?.maxScrollExtent,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeOut); // A Changer
               return Container(
                 width: size.width,
                 alignment: chatMap['sendBy'] == Constants.myName
@@ -291,10 +312,10 @@ class GroupChatRoom extends StatelessWidget {
                               bottomRight: Radius.circular(20)),
                       gradient: LinearGradient(
                         colors: chatMap['sendBy'] == Constants.myName
-                            ? [const Color(0xFF4A00C0), const Color(0xFF4A00C0)]
+                            ? [Constants.colorUserMe, Constants.colorUserMe]
                             : [
-                                const Color(0xFF9E9D9D),
-                                const Color(0xFF9E9D9D)
+                                Constants.colorUserOther,
+                                Constants.colorUserOther
                               ],
                       ),
                     ),
@@ -327,6 +348,10 @@ class GroupChatRoom extends StatelessWidget {
                     )),
               );
             } else if (chatMap['type'] == "img") {
+              scrollController.animateTo(
+                  scrollController.position.maxScrollExtent,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeOut);
               return Container(
                 width: size.width,
                 alignment: chatMap['sendBy'] == Constants.myName
@@ -342,6 +367,10 @@ class GroupChatRoom extends StatelessWidget {
                 ),
               );
             } else if (chatMap['type'] == "notify") {
+              scrollController.animateTo(
+                  scrollController.position.maxScrollExtent,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeOut);
               return Container(
                 width: size.width,
                 alignment: Alignment.center,

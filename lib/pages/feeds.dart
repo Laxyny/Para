@@ -1,9 +1,6 @@
 // ignore_for_file: missing_return
 
-import 'dart:async';
-
 import 'package:Para/helper/helperductions.dart';
-import 'package:Para/models/user.dart';
 import 'package:Para/services/database.dart';
 import 'package:Para/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,12 +13,6 @@ import 'package:Para/models/post.dart';
 import 'package:Para/utils/firebase.dart';
 import 'package:Para/widgets/indicators.dart';
 import 'package:Para/widgets/userpost.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:time/time.dart';
-
-import 'search.dart' as search;
 
 class Timeline extends StatefulWidget {
   @override
@@ -84,12 +75,11 @@ class _TimelineState extends State<Timeline> {
     });
   }
 
-  String resultname = "";
-
   @override
   void initState() {
     super.initState();
-    
+    getUserInfogetChats();
+
     getPosts();
     _scrollController?.addListener(() {
       double maxScroll = _scrollController.position.maxScrollExtent;
@@ -101,12 +91,19 @@ class _TimelineState extends State<Timeline> {
     });
   }
 
+  getUserInfogetChats() async {
+    Constants.myName = await HelperFunctions.getUserNameSharedPreference();
+    DatabaseMethods().getUserChats(Constants.myName).then((snapshots) {
+      setState(() {
+        //print("Nous avons les données c’est le nom  ${Constants.myName}");
+      });
+    });
+  }
+
   //final DateTime fourHoursFromNow = DateTime.now() + Duration(hours: 4);
   final DateTime fourHoursFromNow = DateTime.now();
 
   String greeting() {
-    //search.SearchState().printSample();
-    search.SearchState().buildUsers2();
     var heure = DateTime.now().hour;
     if ((heure > 05) && (heure <= 12)) {
       return 'Bonne Matinée';
@@ -136,7 +133,7 @@ class _TimelineState extends State<Timeline> {
               backgroundColor: Colors.black,
               automaticallyImplyLeading: false,
               title: Text(
-                greeting() + ' ' + resultname ?? 'Indisponible',
+                greeting() + ' ' + Constants.myName ?? 'Indisponible',
                 //style: TextStyle(fontFamily: 'Algerian-Regular'),
               ),
               centerTitle: false,
@@ -201,108 +198,4 @@ class _TimelineState extends State<Timeline> {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
   }
-
-  /*currentUserId() {
-    return firebaseAuth.currentUser.uid;
-  }
-
-  getUsers() async {
-    QuerySnapshot snap = await usersRef.get();
-    List<DocumentSnapshot> doc = snap.docs;
-    users = doc;
-    filteredUsers = doc;
-    setState(() {
-      loading = false;
-    });
-  }
-
-  search(String query) {
-    if (query == "") {
-      filteredUsers = users;
-    } else {
-      List userSearch = users.where((userSnap) {
-        Map user = userSnap.data();
-        String userName = user['username'];
-        return userName.toLowerCase().contains(query.toLowerCase());
-      }).toList();
-
-      setState(() {
-        filteredUsers = userSearch;
-      });
-    }
-  }
-
-  removeFromList(index) {
-    filteredUsers.removeAt(index);
-  }
-
-  buildSearch() {
-    return Row(
-      children: [
-        Container(
-          height: 35.0,
-          width: MediaQuery.of(context).size.width - 100,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5.0),
-            child: Center(
-              child: TextFormField(
-                style: TextStyle(color: Colors.black),
-                controller: searchController,
-                textAlignVertical: TextAlignVertical.center,
-                maxLength: 10,
-                maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(20),
-                ],
-                textCapitalization: TextCapitalization.sentences,
-                onChanged: (query) {
-                  search(query);
-                },
-                decoration: InputDecoration(
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      searchController.clear();
-                    },
-                    child: Icon(Feather.x, size: 12.0, color: Colors.black),
-                  ),
-                  contentPadding: EdgeInsets.only(bottom: 10.0, left: 10.0),
-                  border: InputBorder.none,
-                  counterText: '',
-                  hintText: 'Rechercher...',
-                  hintStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  buildUsers() {
-    print('2222');
-    ListView.builder(
-      itemCount: filteredUsers.length,
-      itemBuilder: (BuildContext context, int index) {
-        DocumentSnapshot doc = filteredUsers[index];
-        UserModel user = UserModel.fromJson(doc.data());
-        if (doc.id == currentUserId()) {
-          print('Laaaaaa');
-          Timer(Duration(milliseconds: 500), () {
-            setState(() {
-              Constants.myName = user.username;
-              //removeFromList(index);
-            });
-          });
-        }
-      },
-    );
-  }*/
 }

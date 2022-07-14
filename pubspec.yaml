@@ -61,6 +61,7 @@ dependencies:
   data_connection_checker: ^0.3.4
   story_creator: ^1.0.0
   intl: ^0.17.0
+  badges: ^2.0.3
 
   rflutter_alert: ^2.0.4
 
