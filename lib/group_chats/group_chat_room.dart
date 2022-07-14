@@ -46,7 +46,7 @@ class GroupChatRoom extends StatelessWidget {
   void onSendMessage() async {
     if (messageController.text.isNotEmpty) {
       Map<String, dynamic> chatData = {
-        "sendBy": currentUserId(),
+        "sendBy": Constants.myName,
         "message": messageController.text,
         "type": "text",
         "time": FieldValue.serverTimestamp(),
@@ -96,7 +96,7 @@ class GroupChatRoom extends StatelessWidget {
         .collection('chats')
         .doc(fileName)
         .set({
-      "sendby": currentUserId(),
+      "sendby": Constants.myName,
       "message": "",
       "type": "img",
       "time": FieldValue.serverTimestamp(),
@@ -273,14 +273,14 @@ class GroupChatRoom extends StatelessWidget {
             if (chatMap['type'] == "text") {
               return Container(
                 width: size.width,
-                alignment: chatMap['sendBy'] == currentUserId()
+                alignment: chatMap['sendBy'] == Constants.myName
                     ? Alignment.centerRight
                     : Alignment.centerLeft,
                 child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
                     margin: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                     decoration: BoxDecoration(
-                      borderRadius: chatMap['sendBy'] == currentUserId()
+                      borderRadius: chatMap['sendBy'] == Constants.myName
                           ? BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20),
@@ -290,7 +290,7 @@ class GroupChatRoom extends StatelessWidget {
                               topRight: Radius.circular(20),
                               bottomRight: Radius.circular(20)),
                       gradient: LinearGradient(
-                        colors: chatMap['sendBy'] == currentUserId()
+                        colors: chatMap['sendBy'] == Constants.myName
                             ? [const Color(0xFF4A00C0), const Color(0xFF4A00C0)]
                             : [
                                 const Color(0xFF9E9D9D),
@@ -301,9 +301,11 @@ class GroupChatRoom extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          _auth.currentUser.uid,
+                          /*chatMap['sendBy'] == currentUserId()
+                              ? Constants.myName
+                              : 'Inconnu',*/
                           //'test',
-                          //chatMap['sendBy'],
+                          chatMap['sendBy'],
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
@@ -327,7 +329,7 @@ class GroupChatRoom extends StatelessWidget {
             } else if (chatMap['type'] == "img") {
               return Container(
                 width: size.width,
-                alignment: chatMap['sendBy'] == currentUserId()
+                alignment: chatMap['sendBy'] == Constants.myName
                     ? Alignment.centerRight
                     : Alignment.centerLeft,
                 child: Container(

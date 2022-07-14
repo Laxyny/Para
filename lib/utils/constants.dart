@@ -8,13 +8,19 @@ final FirebaseFirestore _auth = FirebaseFirestore.instance;
 
 String username;
 
+final _fireStore = FirebaseFirestore.instance;
+//final FirebaseAuth _auth = FirebaseAuth.instance;
+
+final _usersRef = _fireStore.collection('users');
+
+final followersRef = _fireStore.collection('followers');
+
+final followingRef = _fireStore.collection('following');
+
 class Constants {
   //App related strings
   static String appName = "Para";
-
-  Constants myName;
-
-  //Nom d'utilisateur
+  static String myName = "";
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;

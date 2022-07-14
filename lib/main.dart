@@ -22,17 +22,39 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
-    WidgetsBinding.instance.addObserver(
+    /*WidgetsBinding.instance.addObserver(
       LifecycleEventHandler(
         detachedCallBack: () => UserService().setUserStatus(false),
         resumeCallBack: () => UserService().setUserStatus(true),
       ),
-    );
+    );*/
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      UserService().setUserStatus(false);
+    } else if (state == AppLifecycleState.resumed) {
+      UserService().setUserStatus(true);
+    }
+
+    final isBackground = state == AppLifecycleState.paused;
   }
 
   @override

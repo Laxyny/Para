@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:Para/auth/register/profile_pic.dart';
 import 'package:Para/services/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -16,6 +17,8 @@ class RegisterViewModel extends ChangeNotifier {
   FocusNode passFN = FocusNode();
   FocusNode cPassFN = FocusNode();
   AuthService auth = AuthService();
+
+  String resultname = "";
 
   register(BuildContext context) async {
     FormState form = formKey.currentState;
@@ -39,6 +42,10 @@ class RegisterViewModel extends ChangeNotifier {
           );
           print(success);
           if (success) {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            resultname = username;
+            
+            print(resultname);
             Navigator.of(context).pushReplacement(
               CupertinoPageRoute(
                 builder: (_) => ProfilePicture(),

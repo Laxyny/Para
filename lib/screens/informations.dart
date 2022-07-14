@@ -50,6 +50,19 @@ currentUserNum() {
   return currentUserId().phoneNumber;
 }
 
+//Document IDs
+List<String> docIDs = [];
+
+//get DocIDs
+Future getDocId() async {
+  await FirebaseFirestore.instance.collection('users').get().then(
+        (snapshot) => snapshot.docs.forEach((document) {
+          print(document.reference);
+          docIDs.add(document.reference.id);
+        }),
+      );
+}
+
 class _InformationsState extends State<Informations> {
   List<DocumentSnapshot> filteredUsers = [];
   User user;
@@ -126,8 +139,7 @@ class _InformationsState extends State<Informations> {
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          subtitle:
-                              Text(snapshot.data['username'] ?? 'Indisponible'),
+                          subtitle: Text(Constants.myName ?? 'Indisponible'),
                           //trailing: Icon(Icons.info),
                         ),
                         Divider(),
@@ -217,11 +229,8 @@ class _InformationsState extends State<Informations> {
                         ),
                         //trailing: Icon(Icons.info),
                         Divider(),
-                        StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('para')
-                                .doc('para')
-                                .snapshots(),
+                        FutureBuilder(
+                            future: getDocId(),
                             builder: (context, snapshot) {
                               return ListTile(
                                 //onTap: () {},
@@ -231,7 +240,7 @@ class _InformationsState extends State<Informations> {
                                     fontWeight: FontWeight.w900,
                                   ),
                                 ),
-                                subtitle: Text('Indisponible'),
+                                subtitle: Text(docIDs.length.toString()),
                               );
                             }),
                         //trailing: Icon(Icons.info),
@@ -253,8 +262,8 @@ class _InformationsState extends State<Informations> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                    //snapshot.data['flutterVersionName'] ??
-                                    'Indisponible'),
+                                    snapshot.data['flutterVersionName'] ??
+                                        'Indisponible'),
                               );
                             }),
                         //trailing: Icon(Icons.info),

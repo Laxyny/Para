@@ -199,37 +199,40 @@ class _CreatePostState extends State<CreatePost> {
       builder: (BuildContext context) {
         return FractionallySizedBox(
           heightFactor: .6,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Text(
-                  'Selectionner une image',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+          child: Container(
+            color: Colors.black,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text(
+                    'Selectionner une image',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              Divider(),
-              ListTile(
-                leading: Icon(Feather.camera),
-                title: Text('Camera'),
-                onTap: () {
-                  Navigator.pop(context);
-                  viewModel.pickImage(camera: true);
-                },
-              ),
-              ListTile(
-                leading: Icon(Feather.image),
-                title: Text('Gallerie'),
-                onTap: () {
-                  Navigator.pop(context);
-                  viewModel.pickImage();
-                },
-              ),
-            ],
+                Divider(),
+                ListTile(
+                  leading: Icon(Feather.camera),
+                  title: Text('Camera'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    viewModel.pickImage(camera: true);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Feather.image),
+                  title: Text('Gallerie'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    viewModel.pickImage();
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },

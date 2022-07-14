@@ -198,7 +198,8 @@ class _ConversationState extends State<Conversation> {
         return "en ligne";
       }
     } else {
-      return 'vu pour la dernière fois ${timeago.format(user.lastSeen.toDate())}';
+      timeago.setLocaleMessages('fr', timeago.FrMessages());
+      return 'En ligne ${timeago.format(user.lastSeen.toDate(), locale: 'fr')}';
     }
   }
 
@@ -282,22 +283,25 @@ class _ConversationState extends State<Conversation> {
         ),
       ),
       builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              title: Text("Camera"),
-              onTap: () {
-                sendMessage(viewModel, user, imageType: 0, isImage: true);
-              },
-            ),
-            ListTile(
-              title: Text("Gallerie"),
-              onTap: () {
-                sendMessage(viewModel, user, imageType: 1, isImage: true);
-              },
-            ),
-          ],
+        return Container(
+          color: Colors.black,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                title: Text("Camera"),
+                onTap: () {
+                  sendMessage(viewModel, user, imageType: 0, isImage: true);
+                },
+              ),
+              ListTile(
+                title: Text("Gallerie"),
+                onTap: () {
+                  sendMessage(viewModel, user, imageType: 1, isImage: true);
+                },
+              ),
+            ],
+          ),
         );
       },
     );

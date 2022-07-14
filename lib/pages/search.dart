@@ -1,5 +1,8 @@
+// ignore_for_file: missing_return
+
 import 'dart:async';
 
+import 'package:Para/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,13 +14,14 @@ import 'package:Para/models/user.dart';
 import 'package:Para/pages/profile.dart';
 import 'package:Para/utils/firebase.dart';
 import 'package:Para/widgets/indicators.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Search extends StatefulWidget {
   @override
-  _SearchState createState() => _SearchState();
+  SearchState createState() => SearchState();
 }
 
-class _SearchState extends State<Search> {
+class SearchState extends State<Search> {
   User user;
   TextEditingController searchController = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -25,6 +29,10 @@ class _SearchState extends State<Search> {
   List<DocumentSnapshot> users = [];
   List<DocumentSnapshot> filteredUsers = [];
   bool loading = true;
+
+  void printSample() {
+    print('Simple Test');
+  }
 
   currentUserId() {
     return firebaseAuth.currentUser.uid;
@@ -68,6 +76,7 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -143,9 +152,13 @@ class _SearchState extends State<Search> {
               DocumentSnapshot doc = filteredUsers[index];
               UserModel user = UserModel.fromJson(doc.data());
               if (doc.id == currentUserId()) {
-                Timer(Duration(milliseconds: 500), () {
+                Timer(Duration(milliseconds: 500), () async {
                   setState(() {
                     //removeFromList(index);
+                    //Constants.myName = user.username;
+                    //prefs.setString('myNamePARA', user.username);
+                    //resultname = prefs.getString('myNamePARA');
+                    //print(resultname);
                   });
                 });
               }
@@ -222,6 +235,24 @@ class _SearchState extends State<Search> {
         child: circularProgress(context),
       );
     }
+  }
+
+  buildUsers2() {
+    ListView.builder(
+      itemCount: filteredUsers.length,
+      itemBuilder: (BuildContext context, int index) {
+        DocumentSnapshot doc = filteredUsers[index];
+        UserModel user = UserModel.fromJson(doc.data());
+        if (doc.id == currentUserId()) {
+          Timer(Duration(milliseconds: 500), () {
+            setState(() {
+              Constants.myName = user.username;
+              //removeFromList(index);
+            });
+          });
+        }
+      },
+    );
   }
 
   showProfile(BuildContext context, {String profileId}) {

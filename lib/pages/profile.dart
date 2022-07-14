@@ -73,9 +73,9 @@ class _ProfileState extends State<Profile> {
           title: TextButton(
             onPressed: () {},
             child: Text(
-              'Para',
+              'Votre profil',
               style: TextStyle(
-                fontFamily: 'Algerian-Regular',
+                //fontFamily: 'Algerian-Regular',
                 fontSize: 20,
                 color: Colors.white,
               ),
