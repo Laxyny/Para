@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:Para/helper/helperductions.dart';
 import 'package:Para/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -154,6 +155,7 @@ class SearchState extends State<Search> {
               if (doc.id == currentUserId()) {
                 Timer(Duration(milliseconds: 500), () async {
                   setState(() {
+                    HelperFunctions.saveUserNameSharedPreference(user.username);
                     //removeFromList(index);
                     //Constants.myName = user.username;
                     //prefs.setString('myNamePARA', user.username);

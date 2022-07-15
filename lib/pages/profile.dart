@@ -39,6 +39,8 @@ class _ProfileState extends State<Profile> {
   final DateTime timestamp = DateTime.now();
   ScrollController controller = ScrollController();
 
+  bool monProfil = false;
+
   currentUserId() {
     return firebaseAuth.currentUser?.uid;
   }
@@ -68,42 +70,59 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.black,
-          centerTitle: false,
-          title: TextButton(
-            onPressed: () {},
-            child: Text(
-              'Votre profil',
-              style: TextStyle(
-                //fontFamily: 'Algerian-Regular',
-                fontSize: 20,
-                color: Colors.white,
-              ),
+        backgroundColor: Colors.black,
+        centerTitle: false,
+        title: TextButton(
+          onPressed: () {},
+          child: Text(
+            monProfil == false ? 'Profil' : 'Votre profil',
+            style: TextStyle(
+              //fontFamily: 'Algerian-Regular',
+              fontSize: 20,
+              color: Colors.white,
             ),
-          )
-
-          // actions: [
-          //   widget.profileId == firebaseAuth.currentUser.uid
-          //       ? Center(
-          //           child: Padding(
-          //             padding: const EdgeInsets.only(right: 25.0),
-          //             child: GestureDetector(
-          //               onTap: () {
-          //                 firebaseAuth.signOut();
-          //                 Navigator.of(context).push(
-          //                     CupertinoPageRoute(builder: (_) => Register()));
-          //               },
-          //               child: Text(
-          //                 'Deconnexion',
-          //                 style: TextStyle(
-          //                     fontWeight: FontWeight.w900, fontSize: 15.0),
-          //               ),
-          //             ),
-          //           ),
-          //         )
-          //       : SizedBox()
-          // ],
           ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Feather.settings,
+              size: 20.0,
+              color: Theme.of(context).accentColor,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (_) => Setting(),
+                ),
+              );
+            },
+          ),
+        ],
+
+        // actions: [
+        //   widget.profileId == firebaseAuth.currentUser.uid
+        //       ? Center(
+        //           child: Padding(
+        //             padding: const EdgeInsets.only(right: 25.0),
+        //             child: GestureDetector(
+        //               onTap: () {
+        //                 firebaseAuth.signOut();
+        //                 Navigator.of(context).push(
+        //                     CupertinoPageRoute(builder: (_) => Register()));
+        //               },
+        //               child: Text(
+        //                 'Deconnexion',
+        //                 style: TextStyle(
+        //                     fontWeight: FontWeight.w900, fontSize: 15.0),
+        //               ),
+        //             ),
+        //           ),
+        //         )
+        //       : SizedBox()
+        // ],
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -188,7 +207,7 @@ class _ProfileState extends State<Profile> {
                                         ),
                                       ],
                                     ),
-                                    widget.profileId == currentUserId()
+                                    /*widget.profileId == currentUserId()
                                         ? InkWell(
                                             onTap: () {
                                               Navigator.of(context).push(
@@ -211,7 +230,7 @@ class _ProfileState extends State<Profile> {
                                             ),
                                           )
                                         // : buildMessageButton()
-                                        : Text('')
+                                        : Text('')*/
                                   ],
                                 ),
                               ],
@@ -417,7 +436,8 @@ class _ProfileState extends State<Profile> {
     //if isMe then display "edit profile"
     bool isMe = widget.profileId == firebaseAuth.currentUser.uid;
     if (isMe) {
-      return buildButton(
+      monProfil = true;
+      return buildButtonPerso(
           text: "Modifier le profil",
           function: () {
             Navigator.of(context).push(
@@ -431,29 +451,51 @@ class _ProfileState extends State<Profile> {
 
       //if you are already following the user then "unfollow"
     } else if (isFollowing) {
-      return buildButton(
+      return buildButtonAbo(
         text: "Se désabonner",
         function: handleUnfollow,
       );
       //if you are not following the user then "follow"
     } else if (!isFollowing) {
-      return buildButton(
+      return buildButtonAbo(
         text: "S'abonner",
         function: handleFollow,
       );
     }
   }
 
-  buildButton({String text, Function function}) {
+  buildButtonPerso({String text, Function function}) {
     return Center(
       child: GestureDetector(
         onTap: function,
         child: Container(
-          height: 40.0,
-          width: 200.0,
+          height: 35.0,
+          width: 300.0,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-            color: Color(0xFF319BFF),
+            borderRadius: BorderRadius.circular(15.0),
+            color: Colors.grey[800],
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  buildButtonAbo({String text, Function function}) {
+    return Center(
+      child: GestureDetector(
+        onTap: function,
+        child: Container(
+          height: 35.0,
+          width: 300.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            color: Colors.blue,
           ),
           child: Center(
             child: Text(

@@ -140,7 +140,7 @@ class _InformationsState extends State<Informations> {
                             ),
                           ),
                           subtitle: Text(Constants.myName ?? 'Indisponible'),
-                          //trailing: Icon(Icons.info),
+                          trailing: Icon(Icons.person_outline),
                         ),
                         Divider(),
                         ListTile(
@@ -152,7 +152,7 @@ class _InformationsState extends State<Informations> {
                             ),
                           ),
                           subtitle: Text(currentUserEmail() ?? 'Indisponible'),
-                          //trailing: Icon(Icons.info),
+                          trailing: Icon(Icons.mail_outline),
                         ),
                         Divider(),
                         ListTile(
@@ -163,6 +163,7 @@ class _InformationsState extends State<Informations> {
                               fontWeight: FontWeight.w900,
                             ),
                           ),
+                          trailing: Icon(Icons.phone_outlined),
                           //subtitle: Text('Indisponible'),
                           subtitle: Text(_auth.currentUser.phoneNumber != null
                               ? 'Indisponible'
@@ -177,8 +178,10 @@ class _InformationsState extends State<Informations> {
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          subtitle:
-                              Text(snapshot.data['country'] ?? 'Indisponible'),
+                          trailing: Icon(Icons.flag_outlined),
+                          subtitle: Text(snapshot.data['country'] == null
+                              ? 'Indisponible'
+                              : snapshot.data['country']),
                           //trailing: Icon(Icons.info),
                         ),
                         //trailing: Icon(Icons.info),
@@ -199,10 +202,10 @@ class _InformationsState extends State<Informations> {
                         //trailing: Icon(Icons.info),
                         Divider(),
                         ListTile(
-                          onTap: () {
+                          /*onTap: () {
                             print(checkAvailable());
                             print('LOG');
-                          },
+                          },*/
                           title: Text(
                             "Etats des serveurs",
                             style: TextStyle(
@@ -262,12 +265,13 @@ class _InformationsState extends State<Informations> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                    snapshot.data['flutterVersionName'] ??
-                                        'Indisponible'),
+                                    snapshot.data['flutterVersionName'] == null
+                                        ? 'Indisponible'
+                                        : snapshot.data['flutterVersionName']),
                               );
                             }),
                         //trailing: Icon(Icons.info),
-                        Divider(),
+                        /*Divider(),
                         ListTile(
                           //onTap: () {},
                           title: Text(
@@ -291,7 +295,7 @@ class _InformationsState extends State<Informations> {
                           subtitle: Text(''),
                         ),
                         //trailing: Icon(Icons.info),
-                        Divider(),
+                        Divider(),*/
 
                         /*ListTile(
                       title: Text(

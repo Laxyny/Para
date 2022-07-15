@@ -71,12 +71,8 @@ class _SettingState extends State<Setting> {
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              subtitle: Text("PARA ALPHA"),
+              subtitle: Text("PARA ALPHA REBORN"),
               trailing: Icon(Icons.error),
-              onTap: () {
-                Navigator.of(context)
-                    .push(CupertinoPageRoute(builder: (_) => AddData()));
-              },
             ),
             Divider(),
             ListTile(

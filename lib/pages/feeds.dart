@@ -132,10 +132,11 @@ class _TimelineState extends State<Timeline> {
             appBar: AppBar(
               backgroundColor: Colors.black,
               automaticallyImplyLeading: false,
-              title: Text(
-                greeting() + ' ' + Constants.myName ?? 'Indisponible',
-                //style: TextStyle(fontFamily: 'Algerian-Regular'),
-              ),
+              title: Text(Constants.myName == null
+                      ? greeting()
+                      : greeting() + ' ' + Constants.myName
+                  //style: TextStyle(fontFamily: 'Algerian-Regular'),
+                  ),
               centerTitle: false,
               actions: [
                 IconButton(
